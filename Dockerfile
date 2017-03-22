@@ -18,6 +18,7 @@ RUN dnf install -y git-all; dnf clean all
 # install node & npm
 RUN dnf install nodejs npm -y; dnf clean all
 
+# uncomment if you need to run 'which' in the image
 #RUN dnf install which -y; dnf clean all
 
 # copy over our sample hapi app
@@ -40,12 +41,9 @@ RUN cat /etc/httpd/conf/proxy.conf >> /etc/httpd/conf/httpd.conf
 # open ports
 EXPOSE 80 443
 
-# one process: bash!
-#CMD /bin/bash -c "apachectl start; npm start --prefix /opt/src/"
-#CMD /bin/bash -c "npm start --prefix /opt/src/"
+# copy over our shell script, make it executable, then make it go
 ADD go.sh /usr/local/bin/go.sh
 RUN chmod +x /usr/local/bin/go.sh
-#CMD ["/usr/local/bin/go.sh"]
 CMD /bin/bash -c "/usr/local/bin/go.sh"
 
 
