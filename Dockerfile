@@ -4,7 +4,7 @@ FROM fedora:latest
 # note: can't run updates with enterprise red hat; mebbe there's a developer image avail?
 #FROM registry.access.redhat.com/rhel7/rhel
 
-MAINTAINER Clint Conklin <clint@creativengine.com>
+MAINTAINER Your Mom <your@mom.com>
 
 # update the image; NOTE: fedora now uses dnf in lieu of yum
 RUN dnf update -y; dnf clean all
