@@ -6,7 +6,7 @@ FROM fedora:latest
 
 MAINTAINER Clint Conklin <clint@creativengine.com>
 
-# update the image; NOTE: fedora uses dnf in lieu of yum
+# update the image; NOTE: fedora now uses dnf in lieu of yum
 RUN dnf update -y; dnf clean all
 
 # install apache
@@ -44,6 +44,6 @@ EXPOSE 80 443
 # copy over our shell script, make it executable, then make it go
 ADD go.sh /usr/local/bin/go.sh
 RUN chmod +x /usr/local/bin/go.sh
-CMD /bin/bash -c "/usr/local/bin/go.sh"
 
+CMD /bin/bash -c "/usr/local/bin/go.sh"
 

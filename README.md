@@ -4,8 +4,8 @@
 
 2. clone this directory and cd into it
 
-3. run `sudo docker build -t "sen-n/dev" .`
+3. run `sudo docker build -t "clintconklin/sen-n-docker" .`
 
-4. when the build finishes, run `sudo docker run -p 1337:80 -t -i sen-n/dev:latest`
+4. when the build finishes, run `sudo docker run -p 1337:80 -t -i clintconklin/sen-n-docker:latest`
 
 5. browse to `localhost:1337`
