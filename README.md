@@ -6,6 +6,6 @@
 
 3. run `sudo docker build -t "clintconklin/sen-n-docker" .`
 
-4. when the build finishes, run `sudo docker run -p 1337:80 -t -i clintconklin/sen-n-docker:latest`
+4. when the build finishes, run `sudo docker run -p 1337:8080 -t -i clintconklin/sen-n-docker:latest`
 
 5. browse to `localhost:1337`

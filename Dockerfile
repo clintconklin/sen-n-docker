@@ -10,7 +10,7 @@ MAINTAINER Your Mom <your@mom.com>
 RUN dnf update -y; dnf clean all
 
 # install apache
-RUN dnf install -y httpd; dnf clean all
+RUN echo "cache-bust" && dnf install -y httpd; dnf clean all
 
 # install git
 RUN dnf install -y git-all; dnf clean all
@@ -19,7 +19,7 @@ RUN dnf install -y git-all; dnf clean all
 RUN dnf install nodejs npm -y; dnf clean all
 
 # uncomment if you need to run 'which' in the image
-#RUN dnf install which -y; dnf clean all
+RUN dnf install which -y; dnf clean all
 
 # copy over our sample hapi app
 #COPY ./src /opt/src
@@ -39,7 +39,7 @@ COPY proxy.conf /etc/httpd/conf/proxy.conf
 RUN cat /etc/httpd/conf/proxy.conf >> /etc/httpd/conf/httpd.conf
 
 # open ports
-EXPOSE 80 443
+EXPOSE 8080 443
 
 # copy over our shell script, make it executable, then make it go
 ADD go.sh /usr/local/bin/go.sh
