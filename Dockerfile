@@ -10,7 +10,7 @@ MAINTAINER Your Mom <your@mom.com>
 RUN dnf update -y; dnf clean all
 
 # install apache
-RUN echo "cache-bust" && dnf install -y httpd; dnf clean all
+RUN dnf install -y httpd; dnf clean all
 
 # install git
 RUN dnf install -y git-all; dnf clean all
