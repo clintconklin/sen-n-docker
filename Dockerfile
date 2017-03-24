@@ -19,7 +19,7 @@ RUN dnf install -y git-all; dnf clean all
 RUN dnf install nodejs npm -y; dnf clean all
 
 # uncomment if you need to run 'which' in the image
-RUN dnf install which -y; dnf clean all
+#RUN dnf install which -y; dnf clean all
 
 # copy over our sample hapi app
 #COPY ./src /opt/src
@@ -40,6 +40,13 @@ RUN cat /etc/httpd/conf/proxy.conf >> /etc/httpd/conf/httpd.conf
 
 # open ports
 EXPOSE 8080 443
+
+# openshift security model runs us under a random uid, make httpd/run and httpd/logs world-writeable
+RUN chmod -R a+rwx /etc/httpd/run
+RUN chmod -R a+rwx /etc/httpd/logs
+
+# httpd -> 8080
+RUN sed -i 's/^Listen 80$/Listen 8080/' /etc/httpd/conf/httpd.conf
 
 # copy over our shell script, make it executable, then make it go
 ADD go.sh /usr/local/bin/go.sh
