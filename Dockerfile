@@ -6,7 +6,7 @@ FROM fedora:latest
 
 MAINTAINER Your Mom <your@mom.com>
 
-# update the image; NOTE: fedora now uses dnf in lieu of yum
+# update the image
 RUN dnf update -y; dnf clean all
 
 # install apache
@@ -41,7 +41,7 @@ RUN cat /etc/httpd/conf/proxy.conf >> /etc/httpd/conf/httpd.conf
 # open ports
 EXPOSE 8080 443
 
-# openshift security model runs us under a random uid, make httpd/run and httpd/logs world-writeable
+# openshift security model runs under a random unid, make httpd/run and httpd/logs world-writeable
 RUN chmod -R a+rwx /etc/httpd/run
 RUN chmod -R a+rwx /etc/httpd/logs
 
@@ -51,6 +51,5 @@ RUN sed -i 's/^Listen 80$/Listen 8080/' /etc/httpd/conf/httpd.conf
 # copy over our shell script, make it executable, then make it go
 ADD go.sh /usr/local/bin/go.sh
 RUN chmod +x /usr/local/bin/go.sh
-
 CMD /bin/bash -c "/usr/local/bin/go.sh"
 
