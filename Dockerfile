@@ -45,6 +45,9 @@ EXPOSE 8080 443
 RUN chmod -R a+rwx /etc/httpd/run
 RUN chmod -R a+rwx /etc/httpd/logs
 
+# not sure why this only happens on minishift, but there ya have it
+RUN chmod -R a+rwx /run/httpd
+
 # httpd -> 8080
 RUN sed -i 's/^Listen 80$/Listen 8080/' /etc/httpd/conf/httpd.conf
 
@@ -52,4 +55,3 @@ RUN sed -i 's/^Listen 80$/Listen 8080/' /etc/httpd/conf/httpd.conf
 ADD go.sh /usr/local/bin/go.sh
 RUN chmod +x /usr/local/bin/go.sh
 CMD /bin/bash -c "/usr/local/bin/go.sh"
-
