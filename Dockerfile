@@ -46,6 +46,7 @@ RUN chmod -R a+rwx /etc/httpd/run
 RUN chmod -R a+rwx /etc/httpd/logs
 
 # not sure why this only happens on minishift, but there ya have it
+RUN chmod -R a+rwx /run
 RUN chmod -R a+rwx /run/httpd
 
 # httpd -> 8080
