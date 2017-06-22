@@ -19,13 +19,14 @@ RUN dnf install -y git-all; dnf clean all
 RUN dnf install nodejs npm -y; dnf clean all
 
 # uncomment if you need to run 'which' in the image
-#RUN dnf install which -y; dnf clean all
+RUN dnf install which -y; dnf clean all
 
 # copy over our sample hapi app
 #COPY ./src /opt/src
 
 # clone our repo
-RUN git clone https://github.com/clintconklin/docker-hapi-dev.git /opt/src/
+#RUN git clone https://github.com/clintconklin/docker-hapi-dev.git /opt/src/
+COPY ./sen-n-master /opt/src
 
 # run npm install
 RUN cd /opt/src; npm install
@@ -38,21 +39,32 @@ RUN cd /opt/src; npm install
 COPY proxy.conf /etc/httpd/conf/proxy.conf
 RUN cat /etc/httpd/conf/proxy.conf >> /etc/httpd/conf/httpd.conf
 
-# open ports
-EXPOSE 8080 443
+# open port
+EXPOSE 8080
+
+#RUN useradd clint -u 1001 -g root
+RUN chmod -R a+rwx /opt/src
+#RUN chown -R clint:root /opt/src
 
 # openshift security model runs under a random unid, make httpd/run and httpd/logs world-writeable
 RUN chmod -R a+rwx /etc/httpd/run
+#RUN chown -R clint:root /etc/httpd/run
 RUN chmod -R a+rwx /etc/httpd/logs
+#RUN chown -R clint:root /etc/httpd/logs
 
 # not sure why this only happens on minishift, but there ya have it
-RUN chmod -R a+rwx /run
-RUN chmod -R a+rwx /run/httpd
+#RUN chmod -R 777 /run/httpd
+#RUN chown -R clint:root /run/httpd
+
+#RUN echo 'username ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && cat /etc/sudoers
 
 # httpd -> 8080
 RUN sed -i 's/^Listen 80$/Listen 8080/' /etc/httpd/conf/httpd.conf
 
-# copy over our shell script, make it executable, then make it go
+# copy over our shell script, make it executable
 ADD go.sh /usr/local/bin/go.sh
 RUN chmod +x /usr/local/bin/go.sh
+
+# switch to non-root user and make it go
+#USER 1001
 CMD /bin/bash -c "/usr/local/bin/go.sh"
